@@ -11,6 +11,7 @@ var (
 		PermissaoPermissaoAtualizar,
 		PermissaoPermissaoDeletar,
 
+		PermissaoUsuarioCriar,
 		PermissaoUsuarioVisualizar,
 		PermissaoUsuarioListar,
 		PermissaoUsuarioDropdown,
@@ -32,6 +33,7 @@ const (
 	PermissaoPermissaoAtualizar  = "PERMISSAO_ATUALIZAR"
 	PermissaoPermissaoDeletar    = "PERMISSAO_DELETAR"
 
+	PermissaoUsuarioCriar      = "USUARIO_CRIAR"
 	PermissaoUsuarioVisualizar = "USUARIO_VISUALIZAR"
 	PermissaoUsuarioListar     = "USUARIO_LISTAR"
 	PermissaoUsuarioDropdown   = "USUARIO_DROPDOWN"

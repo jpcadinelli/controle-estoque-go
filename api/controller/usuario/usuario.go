@@ -15,6 +15,17 @@ import (
 )
 
 func Criar(ginctx *gin.Context) {
+	usuarioLogado, err := service.GetUsuarioLogado(ginctx)
+	if err != nil {
+		ginctx.JSON(http.StatusBadRequest, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	if !service.VerificaPermissaoUsuario(*usuarioLogado, enum.PermissaoUsuarioCriar) {
+		ginctx.JSON(http.StatusUnauthorized, middleware.NewResponseBridge(erros.ErrUsuarioNaoTemPermissao, nil))
+		return
+	}
+
 	var u models.Usuario
 
 	if err := ginctx.ShouldBindJSON(&u); err != nil {
