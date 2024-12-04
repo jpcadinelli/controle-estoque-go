@@ -30,6 +30,9 @@ var (
 
 		PermissaoEstoqueCriar,
 		PermissaoEstoqueAtualizar,
+
+		PermissaoEnderecoCriar,
+		PermissaoEnderecoAtualizar,
 	}
 )
 
@@ -62,4 +65,7 @@ const (
 
 	PermissaoEstoqueCriar     = "ESTOQUE_CRIAR"
 	PermissaoEstoqueAtualizar = "ESTOQUE_ATUALIZAR"
+
+	PermissaoEnderecoCriar     = "ENDERECO_CRIAR"
+	PermissaoEnderecoAtualizar = "ENDERECO_ATUALIZAR"
 )
