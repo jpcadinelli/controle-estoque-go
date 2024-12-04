@@ -35,6 +35,10 @@ func SetupRoutes(router *gin.Engine) *gin.Engine {
 		{
 			estoqueRoutes(estoqueGroup)
 		}
+		enderecoGroup := main.Group("/enderecos", middleware.Auth())
+		{
+			enderecoRoutes(enderecoGroup)
+		}
 	}
 
 	return router

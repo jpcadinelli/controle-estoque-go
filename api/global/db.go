@@ -5,6 +5,7 @@ const (
 	TablePermissao        = "permissao"
 	TablePermissaoUsuario = "permissao_usuario"
 
-	TableProduto = "produto"
-	TableEstoque = "estoque"
+	TableProduto  = "produto"
+	TableEstoque  = "estoque"
+	TableEndereco = "endereco"
 )
