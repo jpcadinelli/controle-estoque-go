@@ -20,4 +20,6 @@ var (
 	ErrPermissaoNaoEncontrada = fmt.Errorf("permissão não encontrada")
 
 	ErrProdutoNaoEncontrado = fmt.Errorf("produto não encontrado")
+
+	ErrEstoqueNaoEncontrado = fmt.Errorf("cadastro no estoque não encontrado")
 )
