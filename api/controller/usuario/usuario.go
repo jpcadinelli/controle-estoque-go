@@ -28,14 +28,14 @@ func Criar(ginctx *gin.Context) {
 
 	var u models.Usuario
 
-	if err := ginctx.ShouldBindJSON(&u); err != nil {
+	if err = ginctx.ShouldBindJSON(&u); err != nil {
 		ginctx.JSON(http.StatusBadRequest, middleware.NewResponseBridge(err, nil))
 		return
 	}
 
 	u.Password = services.SHA256Encoder(u.Password)
 
-	if err := repository.NewUsuarioRepository(dbConetion.DB).Create(&u); err != nil {
+	if err = repository.NewUsuarioRepository(dbConetion.DB).Create(&u); err != nil {
 		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
 		return
 	}

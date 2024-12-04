@@ -29,3 +29,10 @@ func (p *Produto) ProdutoToDropdownUUID() *DropdownUUID {
 		Value: p.Id,
 	}
 }
+
+type ProdutoFiltro struct {
+	Nome       *string `json:"nome"`
+	Marca      *string `json:"marca"`
+	Quantidade *int    `json:"quantidade"`
+	Unidade    *string `json:"unidade"`
+}
