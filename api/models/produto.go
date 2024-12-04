@@ -2,6 +2,7 @@ package models
 
 import (
 	"api_pattern_go/api/global"
+	"fmt"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -25,7 +26,7 @@ func (p *Produto) TableName() string {
 
 func (p *Produto) ProdutoToDropdownUUID() *DropdownUUID {
 	return &DropdownUUID{
-		Label: p.Nome,
+		Label: fmt.Sprintf("%v (%v%v)", p.Nome, p.Quantidade, p.Unidade),
 		Value: p.Id,
 	}
 }

@@ -26,4 +26,6 @@ var (
 	ErrEnderecoNaoEncontrado = fmt.Errorf("endereço não encontrado")
 
 	ErrClienteNaoEncontrado = fmt.Errorf("cliente não encontrado")
+
+	ErrVendaNaoEncontrada = fmt.Errorf("venda não encontrada")
 )
