@@ -31,6 +31,10 @@ func SetupRoutes(router *gin.Engine) *gin.Engine {
 		{
 			produtoRoutes(produtoGroup)
 		}
+		estoqueGroup := main.Group("/estoques", middleware.Auth())
+		{
+			estoqueRoutes(estoqueGroup)
+		}
 	}
 
 	return router

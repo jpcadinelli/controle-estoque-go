@@ -27,6 +27,9 @@ var (
 		PermissaoProdutoDropdown,
 		PermissaoProdutoAtualizar,
 		PermissaoProdutoDeletar,
+
+		PermissaoEstoqueCriar,
+		PermissaoEstoqueAtualizar,
 	}
 )
 
@@ -56,4 +59,7 @@ const (
 	PermissaoProdutoDropdown   = "PRODUTO_DROPDOWN"
 	PermissaoProdutoAtualizar  = "PRODUTO_ATUALIZAR"
 	PermissaoProdutoDeletar    = "PRODUTO_DELETAR"
+
+	PermissaoEstoqueCriar     = "ESTOQUE_CRIAR"
+	PermissaoEstoqueAtualizar = "ESTOQUE_ATUALIZAR"
 )
