@@ -20,6 +20,13 @@ var (
 
 		PermissaoUsuarioAtribuirPermissao,
 		PermissaoUsuarioRemoverPermissao,
+
+		PermissaoProdutoCriar,
+		PermissaoProdutoVisualizar,
+		PermissaoProdutoListar,
+		PermissaoProdutoDropdown,
+		PermissaoProdutoAtualizar,
+		PermissaoProdutoDeletar,
 	}
 )
 
@@ -42,4 +49,11 @@ const (
 
 	PermissaoUsuarioAtribuirPermissao = "USUARIO_ATRIBUIR_PERMISSAO"
 	PermissaoUsuarioRemoverPermissao  = "USUARIO_REMOVER_PERMISSAO"
+
+	PermissaoProdutoCriar      = "PRODUTO_CRIAR"
+	PermissaoProdutoVisualizar = "PRODUTO_VISUALIZAR"
+	PermissaoProdutoListar     = "PRODUTO_LISTAR"
+	PermissaoProdutoDropdown   = "PRODUTO_DROPDOWN"
+	PermissaoProdutoAtualizar  = "PRODUTO_ATUALIZAR"
+	PermissaoProdutoDeletar    = "PRODUTO_DELETAR"
 )
