@@ -56,7 +56,7 @@ func (r *produtoRepositoryImpl) FindWithFilter(filtro models.ProdutoFiltro, prel
 		}
 	}
 
-	tx = prepereFilter(filtro, tx)
+	tx = prepereFilterProduto(filtro, tx)
 
 	tx = tx.Find(&produtos)
 	if tx.Error != nil {
@@ -110,7 +110,7 @@ func (r *produtoRepositoryImpl) Delete(id uuid.UUID) error {
 	return r.db.Delete(&models.Produto{}, "id = ?", id).Error
 }
 
-func prepereFilter(filtro models.ProdutoFiltro, tx *gorm.DB) *gorm.DB {
+func prepereFilterProduto(filtro models.ProdutoFiltro, tx *gorm.DB) *gorm.DB {
 	if filtro.Nome != nil {
 		tx = tx.Where("LOWER(nome) LIKE ?", "%"+strings.ToLower(*filtro.Nome)+"%")
 	}

@@ -33,6 +33,13 @@ var (
 
 		PermissaoEnderecoCriar,
 		PermissaoEnderecoAtualizar,
+
+		PermissaoClienteCriar,
+		PermissaoClienteVisualizar,
+		PermissaoClienteListar,
+		PermissaoClienteDropdown,
+		PermissaoClienteAtualizar,
+		PermissaoClienteDeletar,
 	}
 )
 
@@ -68,4 +75,11 @@ const (
 
 	PermissaoEnderecoCriar     = "ENDERECO_CRIAR"
 	PermissaoEnderecoAtualizar = "ENDERECO_ATUALIZAR"
+
+	PermissaoClienteCriar      = "CLIENTE_CRIAR"
+	PermissaoClienteVisualizar = "CLIENTE_VISUALIZAR"
+	PermissaoClienteListar     = "CLIENTE_LISTAR"
+	PermissaoClienteDropdown   = "CLIENTE_DROPDOWN"
+	PermissaoClienteAtualizar  = "CLIENTE_ATUALIZAR"
+	PermissaoClienteDeletar    = "CLIENTE_DELETAR"
 )

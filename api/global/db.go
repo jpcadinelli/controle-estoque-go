@@ -8,4 +8,5 @@ const (
 	TableProduto  = "produto"
 	TableEstoque  = "estoque"
 	TableEndereco = "endereco"
+	TableCliente  = "cliente"
 )
