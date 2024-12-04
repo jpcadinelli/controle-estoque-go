@@ -9,6 +9,7 @@ import (
 
 type ProdutoRepository interface {
 	FindById(id uuid.UUID, preloads ...string) (*models.Produto, error)
+	FindAll(preloads ...string) ([]models.Produto, error)
 	Create(produto *models.Produto) error
 	Update(produto *models.Produto, updateItems map[string]interface{}) (*models.Produto, error)
 	Delete(id uuid.UUID) error
@@ -41,6 +42,27 @@ func (r *produtoRepositoryImpl) FindById(id uuid.UUID, preloads ...string) (*mod
 	}
 
 	return &produto, nil
+}
+
+func (r *produtoRepositoryImpl) FindAll(preloads ...string) ([]models.Produto, error) {
+	var produtos []models.Produto
+
+	tx := r.db
+	if len(preloads) > 0 {
+		for _, preload := range preloads {
+			tx = tx.Preload(preload)
+		}
+	}
+
+	tx = tx.Find(&produtos)
+	if tx.Error != nil {
+		return produtos, tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return produtos, erros.ErrProdutoNaoEncontrado
+	}
+
+	return produtos, nil
 }
 
 func (r *produtoRepositoryImpl) Create(produto *models.Produto) error {

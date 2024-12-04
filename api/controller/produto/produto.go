@@ -68,6 +68,32 @@ func Visualizar(ginctx *gin.Context) {
 	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, p))
 }
 
+func Dropdown(ginctx *gin.Context) {
+	usuarioLogado, err := service.GetUsuarioLogado(ginctx)
+	if err != nil {
+		ginctx.JSON(http.StatusBadRequest, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	if !service.VerificaPermissaoUsuario(*usuarioLogado, enum.PermissaoProdutoDropdown) {
+		ginctx.JSON(http.StatusUnauthorized, middleware.NewResponseBridge(erros.ErrUsuarioNaoTemPermissao, nil))
+		return
+	}
+
+	produtos, err := repository.NewProdutoRepository(dbConetion.DB).FindAll()
+	if err != nil {
+		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	var response []*models.DropdownUUID
+	for _, p := range produtos {
+		response = append(response, p.ProdutoToDropdownUUID())
+	}
+
+	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, response))
+}
+
 func Atualizar(ginctx *gin.Context) {
 	usuarioLogado, err := service.GetUsuarioLogado(ginctx)
 	if err != nil {

@@ -22,3 +22,10 @@ func (p *Produto) BeforeCreate(_ *gorm.DB) (err error) {
 func (p *Produto) TableName() string {
 	return global.TableProduto
 }
+
+func (p *Produto) ProdutoToDropdownUUID() *DropdownUUID {
+	return &DropdownUUID{
+		Label: p.Nome,
+		Value: p.Id,
+	}
+}
