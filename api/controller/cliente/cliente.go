@@ -25,19 +25,18 @@ func Criar(ginctx *gin.Context) {
 		return
 	}
 
-	var p models.Cliente
-
-	if err = ginctx.ShouldBindJSON(&p); err != nil {
+	var cliente models.Cliente
+	if err = ginctx.ShouldBindJSON(&cliente); err != nil {
 		ginctx.JSON(http.StatusBadRequest, middleware.NewResponseBridge(err, nil))
 		return
 	}
 
-	if err = repository.NewClienteRepository(dbConetion.DB).Create(&p); err != nil {
+	if err = repository.NewClienteRepository(dbConetion.DB).Create(&cliente); err != nil {
 		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
 		return
 	}
 
-	ginctx.JSON(http.StatusCreated, middleware.NewResponseBridge(nil, p))
+	ginctx.JSON(http.StatusCreated, middleware.NewResponseBridge(nil, cliente))
 }
 
 func Visualizar(ginctx *gin.Context) {
@@ -59,13 +58,13 @@ func Visualizar(ginctx *gin.Context) {
 		return
 	}
 
-	p, err := repository.NewClienteRepository(dbConetion.DB).FindById(id)
+	cliente, err := repository.NewClienteRepository(dbConetion.DB).FindById(id)
 	if err != nil {
 		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
 		return
 	}
 
-	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, p))
+	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, cliente))
 }
 
 func Listar(ginctx *gin.Context) {
@@ -114,8 +113,8 @@ func Dropdown(ginctx *gin.Context) {
 	}
 
 	var response []*models.DropdownUUID
-	for _, p := range clientes {
-		response = append(response, p.ClienteToDropdownUUID())
+	for _, cliente := range clientes {
+		response = append(response, cliente.ClienteToDropdownUUID())
 	}
 
 	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, response))
@@ -133,35 +132,34 @@ func Atualizar(ginctx *gin.Context) {
 		return
 	}
 
-	var p models.Cliente
-
-	if err = ginctx.ShouldBindJSON(&p); err != nil {
+	var cliente models.Cliente
+	if err = ginctx.ShouldBindJSON(&cliente); err != nil {
 		ginctx.JSON(http.StatusBadRequest, middleware.NewResponseBridge(err, nil))
 		return
 	}
 
-	pOld, err := repository.NewClienteRepository(dbConetion.DB).FindById(p.Id)
+	clienteOld, err := repository.NewClienteRepository(dbConetion.DB).FindById(cliente.Id)
 	if err != nil {
 		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
 		return
 	}
 
 	updateItems := map[string]interface{}{
-		"id_endereco_padrao": p.IdEnderecoPadrao,
-		"nome":               p.Nome,
-		"referencia":         p.Referencia,
-		"telefone":           p.Telefone,
-		"whatsapp":           p.Whatsapp,
-		"instagram":          p.Instagram,
+		"id_endereco_padrao": cliente.IdEnderecoPadrao,
+		"nome":               cliente.Nome,
+		"referencia":         cliente.Referencia,
+		"telefone":           cliente.Telefone,
+		"whatsapp":           cliente.Whatsapp,
+		"instagram":          cliente.Instagram,
 	}
 
-	pOld, err = repository.NewClienteRepository(dbConetion.DB).Update(pOld, updateItems)
+	clienteOld, err = repository.NewClienteRepository(dbConetion.DB).Update(clienteOld, updateItems)
 	if err != nil {
 		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
 		return
 	}
 
-	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, pOld))
+	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, clienteOld))
 }
 
 func Deletar(ginctx *gin.Context) {
