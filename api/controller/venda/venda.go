@@ -37,3 +37,30 @@ func Criar(ginctx *gin.Context) {
 
 	ginctx.JSON(http.StatusCreated, middleware.NewResponseBridge(nil, venda))
 }
+
+func Listar(ginctx *gin.Context) {
+	usuarioLogado, err := service.GetUsuarioLogado(ginctx)
+	if err != nil {
+		ginctx.JSON(http.StatusBadRequest, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	if !service.VerificaPermissaoUsuario(*usuarioLogado, enum.PermissaoVendaListar) {
+		ginctx.JSON(http.StatusUnauthorized, middleware.NewResponseBridge(erros.ErrUsuarioNaoTemPermissao, nil))
+		return
+	}
+
+	var filtro models.VendaFiltro
+	if err = ginctx.ShouldBindJSON(&filtro); err != nil {
+		ginctx.JSON(http.StatusBadRequest, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	vendas, err := repository.NewVendaRepository(dbConetion.DB).FindWithFilter(filtro, "Produtos")
+	if err != nil {
+		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, vendas))
+}

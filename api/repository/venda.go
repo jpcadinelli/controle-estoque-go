@@ -146,29 +146,33 @@ func (r *vendaRepositoryImpl) Delete(id uuid.UUID) error {
 }
 
 func prepereFilterVenda(filtro models.VendaFiltro, tx *gorm.DB) *gorm.DB {
-	//if filtro.IdEnderecoPadrao != nil {
-	//	tx = tx.Where("id_endereco_padrao = ?", *filtro.IdEnderecoPadrao)
-	//}
+	if filtro.IdEndereco != nil {
+		tx = tx.Where("id_endereco = ?", *filtro.IdEndereco)
+	}
 
-	//if filtro.Nome != nil {
-	//	tx = tx.Where("LOWER(nome) LIKE ?", "%"+strings.ToLower(*filtro.Nome)+"%")
-	//}
+	if filtro.IdCliente != nil {
+		tx = tx.Where("id_cliente = ?", *filtro.IdCliente)
+	}
 
-	//if filtro.Referencia != nil {
-	//	tx = tx.Where("LOWER(referencia) LIKE ?", "%"+strings.ToLower(*filtro.Referencia)+"%")
-	//}
+	if filtro.Custo != nil {
+		tx = tx.Where("custo <= ?", *filtro.Custo)
+	}
 
-	//if filtro.Telefone != nil {
-	//	tx = tx.Where("LOWER(telefone) LIKE ?", "%"+strings.ToLower(*filtro.Telefone)+"%")
-	//}
+	if filtro.Entrega != nil {
+		tx = tx.Where("entrega <= ?", *filtro.Entrega)
+	}
 
-	//if filtro.Whatsapp != nil {
-	//	tx = tx.Where("LOWER(whatsapp) LIKE ?", "%"+strings.ToLower(*filtro.Whatsapp)+"%")
-	//}
+	if filtro.Valor != nil {
+		tx = tx.Where("valor <= ?", *filtro.Valor)
+	}
 
-	//if filtro.Instagram != nil {
-	//	tx = tx.Where("LOWER(instagram) LIKE ?", "%"+strings.ToLower(*filtro.Instagram)+"%")
-	//}
+	if filtro.DataInicio != nil {
+		tx = tx.Where("data > ?", *filtro.DataInicio)
+	}
+
+	if filtro.DataFim != nil {
+		tx = tx.Where("data < ?", *filtro.DataFim)
+	}
 
 	return tx
 }
