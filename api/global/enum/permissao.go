@@ -40,6 +40,12 @@ var (
 		PermissaoClienteDropdown,
 		PermissaoClienteAtualizar,
 		PermissaoClienteDeletar,
+
+		PermissaoVendaCriar,
+		PermissaoVendaVisualizar,
+		PermissaoVendaListar,
+		PermissaoVendaAtualizar,
+		PermissaoVendaDeletar,
 	}
 )
 
@@ -82,4 +88,10 @@ const (
 	PermissaoClienteDropdown   = "CLIENTE_DROPDOWN"
 	PermissaoClienteAtualizar  = "CLIENTE_ATUALIZAR"
 	PermissaoClienteDeletar    = "CLIENTE_DELETAR"
+
+	PermissaoVendaCriar      = "VENDA_CRIAR"
+	PermissaoVendaVisualizar = "VENDA_VISUALIZAR"
+	PermissaoVendaListar     = "VENDA_LISTAR"
+	PermissaoVendaAtualizar  = "VENDA_ATUALIZAR"
+	PermissaoVendaDeletar    = "VENDA_DELETAR"
 )

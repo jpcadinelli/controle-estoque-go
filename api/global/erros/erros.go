@@ -21,9 +21,12 @@ var (
 
 	ErrProdutoNaoEncontrado = fmt.Errorf("produto não encontrado")
 
-	ErrEstoqueNaoEncontrado = fmt.Errorf("cadastro no estoque não encontrado")
+	ErrEstoqueNaoEncontrado   = fmt.Errorf("cadastro no estoque não encontrado")
+	ErrQuantidadeInsuficiente = "quantidade insuficiente, a disponibilidade do produto %v no estoque é de %v"
 
 	ErrEnderecoNaoEncontrado = fmt.Errorf("endereço não encontrado")
 
 	ErrClienteNaoEncontrado = fmt.Errorf("cliente não encontrado")
+
+	ErrVendaNaoEncontrada = fmt.Errorf("venda não encontrada")
 )
