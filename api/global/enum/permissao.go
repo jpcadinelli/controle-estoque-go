@@ -44,7 +44,6 @@ var (
 		PermissaoVendaCriar,
 		PermissaoVendaVisualizar,
 		PermissaoVendaListar,
-		PermissaoVendaDropdown,
 		PermissaoVendaAtualizar,
 		PermissaoVendaDeletar,
 	}
@@ -93,7 +92,6 @@ const (
 	PermissaoVendaCriar      = "VENDA_CRIAR"
 	PermissaoVendaVisualizar = "VENDA_VISUALIZAR"
 	PermissaoVendaListar     = "VENDA_LISTAR"
-	PermissaoVendaDropdown   = "VENDA_DROPDOWN"
 	PermissaoVendaAtualizar  = "VENDA_ATUALIZAR"
 	PermissaoVendaDeletar    = "VENDA_DELETAR"
 )
