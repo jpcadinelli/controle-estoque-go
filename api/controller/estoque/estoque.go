@@ -30,9 +30,28 @@ func Criar(ginctx *gin.Context) {
 		return
 	}
 
-	if err = repository.NewEstoqueRepository(dbConetion.DB).Create(&e); err != nil {
+	eOld, err := repository.NewEstoqueRepository(dbConetion.DB).FindByIdProduto(e.IdProduto)
+	if err != nil {
 		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
 		return
+	}
+
+	if eOld == nil {
+		if err = repository.NewEstoqueRepository(dbConetion.DB).Create(&e); err != nil {
+			ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
+			return
+		}
+	} else {
+		updateItems := map[string]interface{}{
+			"quantidade": e.Quantidade + eOld.Quantidade,
+			"custo":      ((e.Custo) + (eOld.Custo * float64(eOld.Quantidade))) / float64(e.Quantidade+eOld.Quantidade),
+		}
+
+		eOld, err = repository.NewEstoqueRepository(dbConetion.DB).Update(eOld, updateItems)
+		if err != nil {
+			ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
+			return
+		}
 	}
 
 	ginctx.JSON(http.StatusCreated, middleware.NewResponseBridge(nil, e))
