@@ -93,3 +93,41 @@ func Listar(ginctx *gin.Context) {
 
 	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, vendas))
 }
+
+func Atualizar(ginctx *gin.Context) {
+	usuarioLogado, err := service.GetUsuarioLogado(ginctx)
+	if err != nil {
+		ginctx.JSON(http.StatusBadRequest, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	if !service.VerificaPermissaoUsuario(*usuarioLogado, enum.PermissaoVendaAtualizar) {
+		ginctx.JSON(http.StatusUnauthorized, middleware.NewResponseBridge(erros.ErrUsuarioNaoTemPermissao, nil))
+		return
+	}
+
+	idStr := ginctx.Param("id")
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	vendaOld, err := repository.NewVendaRepository(dbConetion.DB).FindById(id)
+	if err != nil {
+		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	updateItems := map[string]interface{}{
+		"pago": true,
+	}
+
+	vendaOld, err = repository.NewVendaRepository(dbConetion.DB).Update(vendaOld, updateItems)
+	if err != nil {
+		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, vendaOld))
+}

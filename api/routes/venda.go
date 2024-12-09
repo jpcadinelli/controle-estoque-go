@@ -10,6 +10,6 @@ func vendaRoutes(r *gin.RouterGroup) {
 	r.GET(routeId, venda.Visualizar)
 	r.POST(routeFiltro, venda.Listar)
 	//r.GET(routeDropdown, venda.Dropdown)
-	//r.PUT(route, venda.Atualizar)
+	r.PUT(routeId, venda.Atualizar)
 	//r.DELETE(routeId, venda.Deletar)
 }
