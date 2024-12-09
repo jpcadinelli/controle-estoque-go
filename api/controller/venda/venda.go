@@ -131,3 +131,31 @@ func Atualizar(ginctx *gin.Context) {
 
 	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, vendaOld))
 }
+
+func Deletar(ginctx *gin.Context) {
+	usuarioLogado, err := service.GetUsuarioLogado(ginctx)
+	if err != nil {
+		ginctx.JSON(http.StatusBadRequest, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	if !service.VerificaPermissaoUsuario(*usuarioLogado, enum.PermissaoVendaDeletar) {
+		ginctx.JSON(http.StatusUnauthorized, middleware.NewResponseBridge(erros.ErrUsuarioNaoTemPermissao, nil))
+		return
+	}
+
+	idStr := ginctx.Param("id")
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	err = repository.NewVendaRepository(dbConetion.DB).Delete(id)
+	if err != nil {
+		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, nil))
+}

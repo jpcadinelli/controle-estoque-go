@@ -142,7 +142,38 @@ func (r *vendaRepositoryImpl) Update(venda *models.Venda, updateItems map[string
 }
 
 func (r *vendaRepositoryImpl) Delete(id uuid.UUID) error {
-	return r.db.Delete(&models.Venda{}, "id = ?", id).Error
+	return r.db.Transaction(func(tx *gorm.DB) error {
+		venda, err := r.FindById(id, "Produtos")
+		if err != nil {
+			return err
+		}
+
+		for _, vp := range venda.Produtos {
+			estoqueRepo := NewEstoqueRepository(r.db)
+
+			var estoque *models.Estoque
+			estoque, err = estoqueRepo.FindByIdProduto(vp.IdProduto)
+			if err != nil {
+				return err
+			}
+
+			updateItems := map[string]interface{}{
+				"quantidade": estoque.Quantidade + vp.Quantidade,
+			}
+
+			_, err = estoqueRepo.Update(estoque, updateItems)
+			if err != nil {
+				return err
+			}
+
+		}
+
+		if err = tx.Delete(&models.VendaProduto{}, "id_venda = ?", id).Error; err != nil {
+			return err
+		}
+
+		return tx.Delete(&models.Venda{}, "id = ?", id).Error
+	})
 }
 
 func prepereFilterVenda(filtro models.VendaFiltro, tx *gorm.DB) *gorm.DB {
