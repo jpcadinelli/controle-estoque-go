@@ -3,6 +3,7 @@ package repository
 import (
 	"api_pattern_go/api/global/erros"
 	"api_pattern_go/api/models"
+	"fmt"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -90,7 +91,42 @@ func (r *vendaRepositoryImpl) FindAll(preloads ...string) ([]models.Venda, error
 }
 
 func (r *vendaRepositoryImpl) Create(venda *models.Venda) error {
-	return r.db.Create(venda).Error
+	return r.db.Transaction(func(tx *gorm.DB) error {
+		var custoTotalVenda float64
+
+		for _, vp := range venda.Produtos {
+			estoqueRepo := NewEstoqueRepository(r.db)
+
+			estoque, err := estoqueRepo.FindByIdProduto(vp.IdProduto)
+			if err != nil {
+				return err
+			}
+
+			custoTotalVenda += float64(vp.Quantidade) * estoque.Custo
+
+			novaQuantidade := estoque.Quantidade - vp.Quantidade
+			if novaQuantidade < 0 {
+				return fmt.Errorf(erros.ErrQuantidadeInsuficiente, vp.IdProduto, estoque.Quantidade)
+			}
+
+			updateItems := map[string]interface{}{
+				"quantidade": novaQuantidade,
+			}
+
+			_, err = estoqueRepo.Update(estoque, updateItems)
+			if err != nil {
+				return err
+			}
+		}
+
+		venda.Custo = custoTotalVenda
+
+		if err := tx.Create(venda).Error; err != nil {
+			return err
+		}
+
+		return nil
+	})
 }
 
 func (r *vendaRepositoryImpl) Update(venda *models.Venda, updateItems map[string]interface{}) (*models.Venda, error) {

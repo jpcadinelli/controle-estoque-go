@@ -16,7 +16,7 @@ type Venda struct {
 	Valor      float64        `json:"valor"`
 	Pago       bool           `json:"pago"`
 	Data       time.Time      `json:"data"`
-	Produtos   []VendaProduto `json:"produtos"`
+	Produtos   []VendaProduto `json:"produtos" gorm:"foreignKey:IdVenda;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 func (v *Venda) BeforeCreate(_ *gorm.DB) (err error) {
@@ -31,7 +31,7 @@ func (v *Venda) TableName() string {
 
 type VendaProduto struct {
 	Id         uuid.UUID `json:"id"`
-	IdVenda    uuid.UUID `json:"idVenda" gorm:"column:id_permissao"`
+	IdVenda    uuid.UUID `json:"idVenda" gorm:"column:id_venda"`
 	IdProduto  uuid.UUID `json:"idProduto" gorm:"column:id_produto"`
 	Quantidade int       `json:"quantidade"`
 }

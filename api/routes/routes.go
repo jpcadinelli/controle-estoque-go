@@ -43,6 +43,10 @@ func SetupRoutes(router *gin.Engine) *gin.Engine {
 		{
 			clienteRoutes(clienteGroup)
 		}
+		vendaGroup := main.Group("/vendas", middleware.Auth())
+		{
+			vendaRoutes(vendaGroup)
+		}
 	}
 
 	return router
