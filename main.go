@@ -4,6 +4,7 @@ import (
 	dbConection "api_pattern_go/api/database/conection"
 	"api_pattern_go/api/repository"
 	"api_pattern_go/api/routes"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"log"
@@ -39,6 +40,16 @@ func configuraPermissoes() {
 
 func iniciaRotasAPI() {
 	router := gin.Default()
+
+	router.RemoveExtraSlash = true
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
+
 	router = routes.SetupRoutes(router)
 	err := router.Run(":8080")
 	if err != nil {
