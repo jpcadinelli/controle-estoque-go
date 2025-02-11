@@ -15,4 +15,6 @@ func usuarioRoutes(r *gin.RouterGroup) {
 
 	r.POST(routeId+"/permissao/:idPermissao", usuario.AtribuirPermissao)
 	r.DELETE(routeId+"/permissao/:idPermissao", usuario.RemoverPermissao)
+
+	r.GET(route+"logado", usuario.VisualizarUsuarioLogado)
 }

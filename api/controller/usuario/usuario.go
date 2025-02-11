@@ -267,3 +267,20 @@ func RemoverPermissao(ginctx *gin.Context) {
 
 	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, nil))
 }
+
+func VisualizarUsuarioLogado(ginctx *gin.Context) {
+	usuarioLogado, err := service.GetUsuarioLogado(ginctx)
+	if err != nil {
+		ginctx.JSON(http.StatusBadRequest, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	u, err := repository.NewUsuarioRepository(dbConetion.DB).FindById(usuarioLogado.Id, "Permissoes")
+	if err != nil {
+		ginctx.JSON(http.StatusInternalServerError, middleware.NewResponseBridge(err, nil))
+		return
+	}
+
+	userResponse := u.UsuarioToDTOResponse()
+	ginctx.JSON(http.StatusOK, middleware.NewResponseBridge(nil, userResponse))
+}
